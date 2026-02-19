@@ -15,6 +15,9 @@ form.addEventListener("submit", () => {
 
 });
 
+btnBorrarTodo.addEventListener("click", borrarAgenda()); 
+
+
 //FUNCIONES
 function validate() {
     if (!nombre.checkValidity()) {
@@ -59,7 +62,10 @@ function borrarContacto() {
 
 }
 
-function borraAgenda() {
-
+function borrarAgenda() {
+    if(confirm("¿Seguro de que quieres vaciar la agenda?")) {
+        agenda= [];
+        guardarAgenda();
+    }
 }
 
