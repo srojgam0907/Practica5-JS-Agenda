@@ -15,8 +15,6 @@ form.addEventListener("submit", () => {
 
 });
 
-
-
 //FUNCIONES
 function validate() {
     if (!nombre.checkValidity()) {
@@ -44,3 +42,24 @@ function cargarContactos() {
     return [];
   }
 }
+
+function añadirTelefono() {
+
+}
+
+function guardarContacto() {
+
+}
+
+function mostrarContactos() {
+
+}
+
+function borrarContacto() {
+
+}
+
+function borraAgenda() {
+
+}
+
