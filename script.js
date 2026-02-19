@@ -9,12 +9,13 @@ const apellidos= document.querySelector("#inpApellidos");
 const telefono= document.querySelector("#inpTelNumero");
 const listaTelefonos= document.querySelector("#ulTelefonos");
 
-let agenda= [];
+let agenda= cargarContactos();
 let telefonos= [];
 
 //EVENTOS
-form.addEventListener("submit", () => {
-
+form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    guardarContacto();
 });
 
 btnBorrarTodo.addEventListener("click", borrarAgenda); 
@@ -22,17 +23,23 @@ btnBorrarTodo.addEventListener("click", borrarAgenda);
 btnAddTel.addEventListener("click", añadirTelefono);
 
 //FUNCIONES
-function validate() {
+function validarContacto() {
     if (!nombre.checkValidity()) {
         nombre.reportValidity();
-        return;
+        return false;
     }
 
     if (!apellidos.checkValidity()) {
         apellidos.reportValidity();
-        return;
+        return false;
     }
 
+    if(telefonos.length === "0") {
+        alert("Añade al menos un telefono");
+        return false;
+    }
+
+    return true;
 }
 
 function cargarContactos() {
@@ -66,7 +73,27 @@ function añadirTelefono() {
 }
 
 function guardarContacto() {
+    if(!validarContacto()) {
+        alert("Uno de los campos del contacto es incorrecto");
+        return;
+    }
 
+    let id= 0;
+    const contactoNuevo= {
+        id: id++,
+        nombre: nombre.value,
+        apellidos: apellidos.value,
+        telefonos: [...telefonos]
+    };
+
+    agenda.push(nuevoContacto);
+
+    //Resetear despues de guardar el contacto
+    form.reset();
+    telefonos= [];
+    listaTelefonos.textContent= "";
+    mensaje.textContent= "Contacto guardado con éxito";
+    setTimeout(() => mensaje.textContent= "", 3000);
 }
 
 function mostrarContactos() {
