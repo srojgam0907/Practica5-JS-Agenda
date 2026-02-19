@@ -7,16 +7,19 @@ const btnBorrarTodo= document.querySelector("#btnBorrarTodo");
 const nombre= document.querySelector("#inpNombre");
 const apellidos= document.querySelector("#inpApellidos");
 const telefono= document.querySelector("#inpTelNumero");
+const listaTelefonos= document.querySelector("#ulTelefonos");
 
 let agenda= [];
+let telefonos= [];
 
 //EVENTOS
 form.addEventListener("submit", () => {
 
 });
 
-btnBorrarTodo.addEventListener("click", borrarAgenda()); 
+btnBorrarTodo.addEventListener("click", borrarAgenda); 
 
+btnAddTel.addEventListener("click", añadirTelefono);
 
 //FUNCIONES
 function validate() {
@@ -47,7 +50,19 @@ function cargarContactos() {
 }
 
 function añadirTelefono() {
+    const valorTelefono= telefono.value.trim();
 
+    if (!telefono.checkValidity()) {
+        telefono.reportValidity();
+        return;
+    }
+
+    telefonos.push(valorTelefono);
+    const li= document.createElement("li");
+    li.textContent= valorTelefono;
+    listaTelefonos.appendChild(li);
+
+    telefono.value= "";
 }
 
 function guardarContacto() {
