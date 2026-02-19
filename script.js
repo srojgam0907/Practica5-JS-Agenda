@@ -88,10 +88,7 @@ function guardarContacto() {
 
     agenda.push(nuevoContacto);
 
-    //Resetear despues de guardar el contacto
-    form.reset();
-    telefonos= [];
-    listaTelefonos.textContent= "";
+    resetear();  
     mensaje.textContent= "Contacto guardado con éxito";
     setTimeout(() => mensaje.textContent= "", 3000);
 }
@@ -111,3 +108,10 @@ function borrarAgenda() {
     }
 }
 
+function resetear() {
+  nombre.value= "";
+  apellidos.value= "";
+  telefono.value= "";
+  telefonos= [];
+  listaTelefonos.textContent= "";
+}
