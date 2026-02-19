@@ -8,6 +8,7 @@ const nombre= document.querySelector("#inpNombre");
 const apellidos= document.querySelector("#inpApellidos");
 const telefono= document.querySelector("#inpTelNumero");
 const listaTelefonos= document.querySelector("#ulTelefonos");
+const listaContactos= document.querySelector("#secContactos");
 
 let agenda= cargarContactos();
 let telefonos= [];
@@ -34,8 +35,8 @@ function validarContacto() {
         return false;
     }
 
-    if(telefonos.length === "0") {
-        alert("Añade al menos un telefono");
+    if(telefonos.length === 0) {
+        alert("Añade al menos 1 telefono");
         return false;
     }
 
@@ -78,15 +79,14 @@ function guardarContacto() {
         return;
     }
 
-    let id= 0;
     const contactoNuevo= {
-        id: id++,
+        id: Date.now(),
         nombre: nombre.value,
         apellidos: apellidos.value,
         telefonos: [...telefonos]
     };
 
-    agenda.push(nuevoContacto);
+    agenda.push(contactoNuevo);
 
     resetear();  
     mensaje.textContent= "Contacto guardado con éxito";
@@ -94,15 +94,54 @@ function guardarContacto() {
 }
 
 function mostrarContactos() {
+  listaContactos.innerHtml= "";
 
+  if(agenda.length === 0) {
+    listaContactos.innerHTML= "No hay contactos";
+  }
+
+  const contacto= agenda[i];
+
+  for(i=0; i<agenda.length; i++) {
+    const sec= document.createElement("section");
+
+    const nombreCompleto= document.createElement("h3");
+    nombreCompleto.textContent= contacto.nombre + " " + contacto.apellidos;  
+    
+    const contactoTelefonos= document.createElement("p");
+    contactoTelefonos.textContent= "Telefonos: " + contacto.telefonos.join(", ");
+
+    const btnBorrar= document.createElement("button");
+    btnBorrar.textContent= "Eliminar";
+
+    btnBorrar.addEventListener("click", () => {
+        borrarContacto(contacto.id);
+    });
+
+    sec.appendChild(nombreCompleto);
+    sec.appendChild(contactoTelefonos);
+    sec.appendChild(btnBorrar);
+
+    listaContactos.appendChild(sec);
+  }
 }
 
-function borrarContacto() {
+function borrarContacto(idContacto) {
+  let borrado= false;
 
+    if(confirm("¿Quieres borrar el contacto?")) {
+        for(i=0; i<agenda.length && !borrado; i++) {
+            if(agenda[i].id === idContacto) {
+                agenda.splice(i, 1);
+                borrado= true;
+            }
+        }
+        mostrarContactos();
+    }
 }
 
 function borrarAgenda() {
-    if(confirm("¿Seguro de que quieres vaciar la agenda?")) {
+    if(confirm("¿Quieres vaciar la agenda?")) {
         agenda= [];
         guardarAgenda();
     }
@@ -115,3 +154,5 @@ function resetear() {
   telefonos= [];
   listaTelefonos.textContent= "";
 }
+
+mostrarContactos();
