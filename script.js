@@ -88,6 +88,9 @@ function guardarContacto() {
 
     agenda.push(contactoNuevo);
 
+    localStorage.setItem("agenda", JSON.stringify(agenda));
+    mostrarContactos();
+
     resetear();  
     mensaje.textContent= "Contacto guardado con éxito";
     setTimeout(() => mensaje.textContent= "", 3000);
@@ -100,10 +103,10 @@ function mostrarContactos() {
     listaContactos.innerHTML= "No hay contactos";
   }
 
-  const contacto= agenda[i];
-
   for(i=0; i<agenda.length; i++) {
-    const sec= document.createElement("section");
+    const contacto= agenda[i];
+    const div= document.createElement("div");
+    div.className= "contacto";
 
     const nombreCompleto= document.createElement("h3");
     nombreCompleto.textContent= contacto.nombre + " " + contacto.apellidos;  
@@ -136,6 +139,7 @@ function borrarContacto(idContacto) {
                 borrado= true;
             }
         }
+        localStorage.setItem("agenda", JSON.stringify(agenda));
         mostrarContactos();
     }
 }
@@ -143,7 +147,8 @@ function borrarContacto(idContacto) {
 function borrarAgenda() {
     if(confirm("¿Quieres vaciar la agenda?")) {
         agenda= [];
-        guardarAgenda();
+        localStorage.setItem("agenda", JSON.stringify(agenda));
+        mostrarContactos();
     }
 }
 
